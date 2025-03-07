@@ -4,3 +4,17 @@ body {
   @apply min-h-screen bg-gray-900;
 }
 
+header {
+  @apply w-full;
+}
+
+main {
+  @apply transition-all duration-300;
+}
+
+/* Ensure the sidebar doesn't affect layout on mobile when hidden */
+@media (max-width: 768px) {
+  main {
+    margin-left: 0 !important;
+  }
+}
