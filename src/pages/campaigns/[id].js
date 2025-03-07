@@ -12,6 +12,8 @@ export default function CampaignDetails() {
   const [updates, setUpdates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
+  const [withdrawError, setWithdrawError] = useState('');
 
   useEffect(() => {
     if (!id) return;
@@ -46,21 +48,27 @@ export default function CampaignDetails() {
   const progress = Math.min((raised / goal) * 100, 100);
   const isCreator = campaign.creator === (typeof window !== 'undefined' ? window.ethereum.selectedAddress : null);
   const isEnded = campaign.deadline <= Math.floor(Date.now() / 1000);
-  const canWithdraw = isCreator && isEnded && !campaign.fundsWithdrawn && raised >= goal;
+  const canWithdraw = isCreator && isEnded && !campaign.fundsWithdrawn && raised >= goal && campaign.active;
 
   const handleWithdraw = async () => {
-    if (window.confirm('Are you sure you want to withdraw funds?')) {
-      try {
-        const contract = await getContract();
-        const tx = await contract.withdrawFunds(id);
-        await tx.wait();
-        alert('Funds withdrawn successfully!');
-        // Refresh the page or update state
-        fetchCampaign();
-      } catch (err) {
-        console.error('Withdrawal error:', err);
-        alert('Failed to withdraw funds: ' + (err.message || 'Try again.'));
-      }
+    if (!window.confirm('Are you sure you want to withdraw funds? This action cannot be undone.')) {
+      return;
+    }
+
+    setIsWithdrawing(true);
+    setWithdrawError('');
+    try {
+      const contract = await getContract();
+      const tx = await contract.withdrawFunds(id);
+      await tx.wait();
+      alert('Funds withdrawn successfully!');
+      // Refresh the campaign data
+      fetchCampaign();
+    } catch (err) {
+      console.error('Withdrawal error:', err);
+      setWithdrawError('Failed to withdraw funds: ' + (err.message || err.reason || 'Try again.'));
+    } finally {
+      setIsWithdrawing(false);
     }
   };
 
@@ -114,11 +122,13 @@ export default function CampaignDetails() {
         {canWithdraw && (
           <button
             onClick={handleWithdraw}
-            className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+            disabled={isWithdrawing}
+            className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 disabled:bg-gray-600 transition-colors"
           >
-            Withdraw Funds ({raised.toFixed(2)} ETH)
+            {isWithdrawing ? 'Withdrawing...' : `Withdraw Funds (${raised.toFixed(2)} ETH)`}
           </button>
         )}
+        {withdrawError && <p className="text-red-500 mt-2 text-sm">{withdrawError}</p>}
       </div>
     </div>
   );

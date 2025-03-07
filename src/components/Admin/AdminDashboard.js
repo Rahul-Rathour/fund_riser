@@ -6,7 +6,7 @@ const AdminDashboard = () => {
   const { userRole } = useContext(AuthContext);
 
   if (userRole !== 'admin') {
-    return <div className="p-4 text-red-500 bg-gray-900 text-white">Access Denied</div>;
+    return <div className="p-4 text-red-500 bg-gray-900">Access Denied</div>;
   }
 
   return (
