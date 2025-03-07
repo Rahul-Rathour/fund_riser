@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import CrowdfundingABI from './CrowdfundingABI.json';
 
 // Replace with your new deployment address from Remix
-const CONTRACT_ADDRESS = '0xf369b5e5A9e4d3dDBb65C5295429F969D955bC6A'; // e.g., '0x1234567890abcdef1234567890abcdef12345678'
+const CONTRACT_ADDRESS = '0x91d174a2933A867018a9788429847D2F054080C3'; // e.g., '0x5134d8c5869eD6fbB47cd27425a74D27CdeB8bC2'
 
 export const getContract = async () => {
   if (!window.ethereum) {

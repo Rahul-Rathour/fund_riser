@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { getContract } from '../../blockchain/contract';
 import { ethers } from 'ethers';
-import { CATEGORIES } from '@/src/utils/categories';
+import { CATEGORIES } from '../../utils/categories';
 import Link from 'next/link';
 
 const CampaignCard = ({ campaign, id }) => {
@@ -49,6 +49,16 @@ const CampaignCard = ({ campaign, id }) => {
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+      {campaign.imageUrl && (
+        <div className="mb-4">
+          <img
+            src={campaign.imageUrl}
+            alt={campaign.title}
+            className="w-full h-48 object-cover rounded-lg"
+            onError={(e) => { e.target.src = 'https://via.placeholder.com/150'; }}
+          />
+        </div>
+      )}
       <h3 className="text-lg font-bold text-white">{campaign.title}</h3>
       <p className="text-gray-300 truncate">{campaign.description.substring(0, 50)}...</p>
       <div className="w-full bg-gray-700 rounded-full h-2.5 mt-2">
@@ -85,6 +95,13 @@ const CampaignCard = ({ campaign, id }) => {
           View Details
         </button>
       </Link>
+      {currentAccount === campaign.creator && (
+        <Link href={`/campaigns/${id}/update`}>
+          <button className="mt-2 bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600">
+            Post Update
+          </button>
+        </Link>
+      )}
     </div>
   );
 };
