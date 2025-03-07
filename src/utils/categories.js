@@ -1,1 +1,1 @@
-export const CATEGORIES = ['Education', 'Health', 'Environment', 'Social', 'Other'];
+export const CATEGORIES = ['Education', 'Health', 'Environment', 'Social', 'Other']; 

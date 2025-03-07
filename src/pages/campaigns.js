@@ -22,9 +22,9 @@ export default function Campaigns() {
 
   return (
     <div className="bg-gray-900 min-h-screen text-white p-4">
-      <h1 className="text-3xl font-bold mb-6">All Campaigns (0)</h1>
+      <h1 className="text-3xl font-bold mb-6">All Campaigns ({refreshTrigger})</h1>
       <p className="mb-4 text-gray-400">There are no campaigns.</p>
-      <CampaignList refreshTrigger={refreshTrigger} />
+      <CampaignList refreshTrigger={refreshTrigger} isAdmin={false} />
     </div>
   );
 }
