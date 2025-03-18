@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       setCurrentAccount(address);
 
       // Role assignment
-      const adminAddress = 'YOUR_ADMIN_ADDRESS'.toLowerCase(); // Replace with actual admin address
+      const adminAddress = 'Admin_address'.toLowerCase(); // Replace with actual admin address
       if (address.toLowerCase() === adminAddress) {
         setUserRole('admin');
       } else {
