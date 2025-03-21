@@ -4,7 +4,7 @@ import { getContract } from '../../blockchain/contract';
 import { ethers } from 'ethers';
 import { CATEGORIES } from '../../utils/categories';
 import Link from 'next/link';
-import { FaClock, FaMapMarkerAlt, FaTag } from 'react-icons/fa';
+import { FaClock, FaMapMarkerAlt, FaTag, FaWallet } from 'react-icons/fa';
 
 const CampaignCard = ({ campaign, id }) => {
   const { currentAccount } = useContext(AuthContext);
@@ -114,7 +114,12 @@ const CampaignCard = ({ campaign, id }) => {
             <span>{new Date(campaign.deadline * 1000).toLocaleDateString()}</span>
           </div>
           <div className="flex items-center">
+            <FaWallet className="mr-1 text-gray-500" />
             <span>Raised: {raised.toFixed(2)} ETH</span>
+          </div>
+          <div className="flex items-center col-span-2">
+            <FaWallet className="mr-1 text-gray-500" />
+            <span>Desired Fund: {goal.toFixed(2)} ETH</span>
           </div>
         </div>
 
